@@ -19,7 +19,7 @@ InjectEnv
 Wraps and executes commands with additional environmental variables.
 
 Usage: injectenv <command> [<flags> ...]
-Example: injectenv exec -profile nomad-dev -- nomad job status
+Example: injectenv exec -profile profile1 -- printenv | grep key1
 
 Commands:
   help
