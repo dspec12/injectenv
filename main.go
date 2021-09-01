@@ -1,46 +1,28 @@
+/*
+Copyright © 2021 Daniel Spector
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
 package main
 
-import (
-	"flag"
-	"fmt"
-	"log"
-	"os"
-)
-
-type envConfig map[string]map[string]string
+import "github.com/dspec12/injectenv/cmd"
 
 func main() {
-	// Set logger
-	log.SetFlags(0)
-	log.SetPrefix("[InjectEnv] ")
-
-	// Hydrate env map from yaml config
-	env := make(envConfig)
-	env.loadConfigFile()
-
-	// CLI  subcommands and flags
-	listCmd := flag.NewFlagSet("list", flag.ExitOnError)
-	execCmd := flag.NewFlagSet("exec", flag.ExitOnError)
-	listProfile := listCmd.String("profile", "", "Lists all env vars for profile.")
-	execProfile := execCmd.String("profile", "", "Executes a command with added ENV vars from profile. (Required) ")
-
-	// Verify that a subcomand has been provided
-	if len(os.Args) < 2 {
-		fmt.Println(helpPage)
-		log.Fatalln("No arguments specified.")
-	}
-
-	// Subcommand handlers
-	switch os.Args[1] {
-	case "list":
-		handleList(listCmd, listProfile, env)
-	case "exec":
-		handleExec(execCmd, execProfile, env)
-	case "help":
-		println(helpPage)
-		os.Exit(0)
-	default:
-		fmt.Println(helpPage)
-		log.Fatalf("%s is not a valid argument.", os.Args[1])
-	}
+	cmd.Execute()
 }
