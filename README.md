@@ -1,64 +1,27 @@
 # InjectEnv
-Wraps and executes commands with additional environmental variables.
+Injectenv adds profile defined variables to your environment for a single command.
 <br/><br/>
 
 
 ## Manpage
 ```
-InjectEnv
-Wraps and executes commands with additional environmental variables.
+Injectenv adds profile defined variables to your environment for a single command.
 
-Usage: injectenv <command> [<flags> ...]
-Example: injectenv exec -profile profile1 -- printenv | grep key1
+Example:
+  injectenv exec profile1 -- printenv | grep key1
 
-Commands:
-  help
-      Show help.
+Usage:
+  injectenv [command]
 
-  list [<flags>]
-    List profiles.
+Available Commands:
+  exec        Executes a command with specified profile variables in the environment.
+  help        Help about any command
+  list        List profiles.
 
-	Flags:
-	 --profile			If specified the program will list all variables under the target profile.
+Flags:
+  -c, --config string   config file (default is $HOME/.injectenv.yaml)
+  -h, --help            help for injectenv
+  -v, --version         version for injectenv
 
-  exec [<flags>] [<cmd>] [<args>...]
-    Executes a command with additional profile vars in the environment
-
-	Flags:
-	 --profile			Name of the profile to use (Required).
-```
-
-
-## Demo
-Example config
-```
- ~/.injectenv.yaml
----
-profile1:
-    key1: value
-    key2: value2
-profile2:
-    key1: value
-    key2: vlaue2
-
-```
-
-List Profiles
-```
-$ injectenv list
-Available Profiles
-profile1
-profile2
-```
-Display profile variables
-```
-$ injectenv list -profile profile1
-profile1
-key1: value
-key2: value2
-```
-Execute command with injected variables
-```
-$ injectenv exec -profile profile1 -- printenv | grep key1
-key1=value1
+Use "injectenv [command] --help" for more information about a command.
 ```
