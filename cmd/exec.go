@@ -42,7 +42,6 @@ var execCmd = &cobra.Command{
 			cobra.CheckErr(err)
 		}
 
-		fmt.Println("starting exec")
 		err = syscall.Exec(bin, args[1:], os.Environ())
 		cobra.CheckErr(err)
 	},

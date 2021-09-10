@@ -20,7 +20,7 @@ Example:
   injectenv exec profile1 -- printenv | grep key1
 `,
 	CompletionOptions: cobra.CompletionOptions{DisableDefaultCmd: true},
-	Version:           "0.1.0",
+	Version:           "0.1.1",
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
