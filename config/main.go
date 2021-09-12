@@ -9,8 +9,10 @@ import (
 
 type EnvConfig map[string]map[string]string
 
+// Exported global of loaded profiles and their variables.
 var EnvMap EnvConfig
 
+// Hydrates the exported EnvMap global from a yaml config file.
 func (env *EnvConfig) LoadConfigFile(filePath string) error {
 	if !fileExists(filePath) {
 		return errors.New("no config file found")

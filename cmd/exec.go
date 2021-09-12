@@ -13,12 +13,14 @@ import (
 // execCmd represents the exec command
 var execCmd = &cobra.Command{
 	Use:   "exec <profile>",
-	Short: "Executes a command with specified profile variables in the environment.",
-	Long: `Example:
+	Short: "Executes a command with specified profile variables added to the current environment",
+	Long: `Executes a command with specified profile variables added to the current environment
+
+Example:
   injectenv exec profile1 -- printenv | grep key1
 `,
 	Args: func(cmd *cobra.Command, args []string) error {
-		// Verifies that correct the ammount of args are passed.
+		// Verifies that the correct the ammount of args are passed.
 		if len(args) < 2 {
 			return fmt.Errorf("command \"exec\" requires at least two args")
 		}
@@ -32,11 +34,11 @@ var execCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		targetProfile := config.EnvMap[args[0]]
 
-		// Check if command exists
+		// Set command executable.
 		bin, err := exec.LookPath(args[1])
 		cobra.CheckErr(err)
 
-		// Create slice with added profile env vars
+		// Creates a slice and adds the target profile variables to the users already defined environment.
 		var envSlice []string
 
 		for k, v := range targetProfile {
@@ -46,7 +48,7 @@ var execCmd = &cobra.Command{
 
 		envSlice = append(envSlice, os.Environ()...)
 
-		// Execute command
+		// Executes the command with all variables from the slice above.
 		err = syscall.Exec(bin, args[1:], envSlice)
 		cobra.CheckErr(err)
 	},

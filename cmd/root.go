@@ -13,8 +13,8 @@ var cfgFile string
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "injectenv",
-	Short: "Wraps and executes commands with additional environmental variables.",
-	Long: `Injectenv adds profile defined variables to your environment for a single command.
+	Short: "Wraps and executes commands with additional environmental variables",
+	Long: `Injectenv adds profile defined variables to your environment for a single command
 
 Example:
   injectenv exec profile1 -- printenv | grep key1
@@ -37,7 +37,7 @@ func init() {
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
 	if cfgFile != "" {
-		// Use config file from the flag.
+		// Use config file from the optional flag.
 		err := config.EnvMap.LoadConfigFile(cfgFile)
 		cobra.CheckErr(err)
 	} else {
@@ -45,7 +45,7 @@ func initConfig() {
 		homedir, err := os.UserHomeDir()
 		cobra.CheckErr(err)
 
-		// Search config in home directory with name ".injectenv.yaml"
+		// Load in data from ".injectenv.yaml".
 		cfgFile = homedir + "/.injectenv.yaml"
 		if config.EnvMap.LoadConfigFile(cfgFile); err != nil {
 			cobra.CheckErr(err)

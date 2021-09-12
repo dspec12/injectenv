@@ -10,21 +10,25 @@ import (
 
 var listCmd = &cobra.Command{
 	Use:   "list",
-	Short: "List profiles.",
-	Long: `Lists the profiles defined in config file.
+	Short: "Lists profiles and optionally their variables",
+	Long: `Lists profiles and optionally their variables
 
 Example:
   injectenv list
 `,
 	Args: cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
+		// Set output colors.
 		boldColor := color.New(color.FgBlue).Add(color.Bold).Add(color.Underline)
 		keyColor := color.New(color.FgYellow)
+
+		// Set verbose flag.
 		verboseFlag, err := cmd.Flags().GetBool("verbose")
 		cobra.CheckErr(err)
 
 		switch verboseFlag {
 		case true:
+			// Verbose output.
 			for profile := range config.EnvMap {
 				boldColor.Println(profile)
 				for k, v := range config.EnvMap[profile] {
@@ -34,6 +38,7 @@ Example:
 				fmt.Println()
 			}
 		default:
+			// Normal output.
 			boldColor.Println("Profiles")
 			for k := range config.EnvMap {
 				fmt.Println(k)
