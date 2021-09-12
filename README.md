@@ -5,7 +5,7 @@ Injectenv adds profile defined variables to your environment for a single comman
 
 ## Manpage
 ```
-Injectenv adds profile defined variables to your environment for a single command.
+Injectenv adds profile defined variables to your environment for a single command
 
 Example:
   injectenv exec profile1 -- printenv | grep key1
@@ -14,9 +14,9 @@ Usage:
   injectenv [command]
 
 Available Commands:
-  exec        Executes a command with specified profile variables in the environment.
+  exec        Executes a command with specified profile variables added to the current environment
   help        Help about any command
-  list        List profiles.
+  list        Lists profiles and optionally their variables
 
 Flags:
   -c, --config string   config file (default is $HOME/.injectenv.yaml)
