@@ -3,9 +3,9 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/dspec12/injectenv/config"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 var listCmd = &cobra.Command{
@@ -25,9 +25,9 @@ Example:
 
 		switch verboseFlag {
 		case true:
-			for profile := range viper.AllSettings() {
+			for profile := range config.EnvMap {
 				boldColor.Println(profile)
-				for k, v := range viper.GetStringMapString(profile) {
+				for k, v := range config.EnvMap[profile] {
 					keyColor.Printf("%s: ", k)
 					fmt.Println(v)
 				}
@@ -35,7 +35,7 @@ Example:
 			}
 		default:
 			boldColor.Println("Profiles")
-			for k := range viper.AllSettings() {
+			for k := range config.EnvMap {
 				fmt.Println(k)
 			}
 		}
