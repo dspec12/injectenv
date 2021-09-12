@@ -3,39 +3,44 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/dspec12/injectenv/config"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 var listCmd = &cobra.Command{
 	Use:   "list",
-	Short: "List profiles.",
-	Long: `Lists the profiles defined in config file.
+	Short: "Lists profiles and optionally their variables",
+	Long: `Lists profiles and optionally their variables
 
 Example:
   injectenv list
 `,
 	Args: cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
+		// Set output colors.
 		boldColor := color.New(color.FgBlue).Add(color.Bold).Add(color.Underline)
 		keyColor := color.New(color.FgYellow)
+
+		// Set verbose flag.
 		verboseFlag, err := cmd.Flags().GetBool("verbose")
 		cobra.CheckErr(err)
 
 		switch verboseFlag {
 		case true:
-			for profile := range viper.AllSettings() {
+			// Verbose output.
+			for profile := range config.EnvMap {
 				boldColor.Println(profile)
-				for k, v := range viper.GetStringMapString(profile) {
+				for k, v := range config.EnvMap[profile] {
 					keyColor.Printf("%s: ", k)
 					fmt.Println(v)
 				}
 				fmt.Println()
 			}
 		default:
+			// Normal output.
 			boldColor.Println("Profiles")
-			for k := range viper.AllSettings() {
+			for k := range config.EnvMap {
 				fmt.Println(k)
 			}
 		}
